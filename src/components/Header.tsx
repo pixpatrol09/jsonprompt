@@ -1,16 +1,22 @@
 import { Layout, Button, Space, Typography, Dropdown } from 'antd'
 import { BulbOutlined, BulbFilled, ThunderboltOutlined, LogoutOutlined, UserOutlined } from '@ant-design/icons'
 import { useThemeStore } from '../stores/themeStore'
+import { usePromptStore } from '../stores/promptStore'
 
 const { Header: AntHeader } = Layout
 const { Title, Text } = Typography
 
 export function Header() {
   const { isDark, toggleTheme } = useThemeStore()
+  const { setCurrentStep } = usePromptStore()
 
   const handleLogout = () => {
     localStorage.removeItem('prompt-studio-auth')
     window.location.reload()
+  }
+
+  const handleGoHome = () => {
+    setCurrentStep(-1) // Go to welcome screen
   }
 
   const userMenuItems = [
@@ -32,7 +38,17 @@ export function Header() {
         alignItems: 'center', 
         justifyContent: 'space-between'
       }}>
-        <Space align="center" size={16}>
+        <Space 
+          align="center" 
+          size={16}
+          onClick={handleGoHome}
+          style={{ 
+            cursor: 'pointer',
+            transition: 'opacity 0.2s ease',
+          }}
+          onMouseEnter={(e) => e.currentTarget.style.opacity = '0.8'}
+          onMouseLeave={(e) => e.currentTarget.style.opacity = '1'}
+        >
           <div style={{
             width: 40,
             height: 40,

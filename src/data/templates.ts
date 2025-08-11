@@ -13,12 +13,12 @@ export interface PromptTemplate {
 }
 
 export const TEMPLATE_CATEGORIES = [
-  { key: 'fashion', label: 'Fashion', icon: '👗' },
-  { key: 'product', label: 'Product', icon: '📦' },
+  { key: 'fashion', label: 'Fashion', icon: '👔' },
+  { key: 'product', label: 'Product', icon: '📱' },
   { key: 'portrait', label: 'Portrait', icon: '👤' },
-  { key: 'lifestyle', label: 'Lifestyle', icon: '🌟' },
-  { key: 'commercial', label: 'Commercial', icon: '💼' },
-  { key: 'editorial', label: 'Editorial', icon: '📸' }
+  { key: 'lifestyle', label: 'Lifestyle', icon: '🏠' },
+  { key: 'commercial', label: 'Commercial', icon: '🏢' },
+  { key: 'editorial', label: 'Editorial', icon: '📄' }
 ] as const
 
 export const PRESET_TEMPLATES: PromptTemplate[] = [

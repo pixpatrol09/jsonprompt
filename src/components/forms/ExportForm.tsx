@@ -1,12 +1,17 @@
 import { Card, Button, Space, Typography, message, Divider } from 'antd'
-import { DownloadOutlined, CopyOutlined, FileTextOutlined, CheckCircleOutlined } from '@ant-design/icons'
+import { DownloadOutlined, CopyOutlined, CheckCircleOutlined, SaveOutlined, UploadOutlined } from '@ant-design/icons'
 import { usePromptStore } from '../../stores/promptStore'
+import { SaveTemplateModal } from '../templates/SaveTemplateModal'
+import { LoadTemplateModal } from '../templates/LoadTemplateModal'
 import SectionTitle from '../ui/SectionTitle'
+import { useState } from 'react'
 
 const { Text, Paragraph } = Typography
 
 export function ExportForm() {
   const { promptData, exportJSON } = usePromptStore()
+  const [showSaveModal, setShowSaveModal] = useState(false)
+  const [showLoadModal, setShowLoadModal] = useState(false)
 
   const handleCopyJSON = async () => {
     try {
@@ -42,7 +47,7 @@ export function ExportForm() {
     <div style={{ maxWidth: 800, margin: '0 auto' }}>
       <Card>
         <SectionTitle
-          icon={<FileTextOutlined />}
+          icon={<CheckCircleOutlined />}
           title="Export Your Prompt"
           subtitle="Review and export your AI prompt configuration"
         />
@@ -77,6 +82,37 @@ export function ExportForm() {
                 <Text>{promptData.instructions?.output_resolution || 'Not specified'}</Text>
               </div>
             </Space>
+          </div>
+        </div>
+
+        <Divider />
+
+        {/* Template Actions */}
+        <div style={{ marginBottom: 24, textAlign: 'center' }}>
+          <Text strong style={{ fontSize: 16, marginBottom: 16, display: 'block' }}>
+            Template Management
+          </Text>
+          <Space size={16} wrap>
+            <Button
+              icon={<SaveOutlined />}
+              onClick={() => setShowSaveModal(true)}
+              size="large"
+            >
+              Save as Template
+            </Button>
+            
+            <Button
+              icon={<UploadOutlined />}
+              onClick={() => setShowLoadModal(true)}
+              size="large"
+            >
+              Load Template
+            </Button>
+          </Space>
+          <div style={{ marginTop: 8 }}>
+            <Text type="secondary" style={{ fontSize: 12 }}>
+              Save your current settings as a reusable template or load an existing one
+            </Text>
           </div>
         </div>
 
@@ -158,6 +194,16 @@ export function ExportForm() {
             </Paragraph>
           </Text>
         </div>
+
+        <SaveTemplateModal
+          visible={showSaveModal}
+          onClose={() => setShowSaveModal(false)}
+        />
+
+        <LoadTemplateModal
+          visible={showLoadModal}
+          onClose={() => setShowLoadModal(false)}
+        />
       </Card>
     </div>
   )

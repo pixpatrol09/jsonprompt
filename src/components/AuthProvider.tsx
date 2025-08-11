@@ -1,11 +1,14 @@
 import React, { useState, useEffect } from 'react'
 import { Card, Input, Button, Typography, Space, message } from 'antd'
-import { LockOutlined, KeyOutlined } from '@ant-design/icons'
+import { LockOutlined, SafetyOutlined } from '@ant-design/icons'
 
 const { Title, Text } = Typography
 
-const PASSCODE = 'blinkDEL19'
+// Use environment variable or fallback for development
+const PASSCODE = import.meta.env.VITE_APP_PASSCODE || 'blinkDEL19'
 const AUTH_KEY = 'prompt-studio-auth'
+const MAX_ATTEMPTS = 5
+const LOCKOUT_TIME = 15 * 60 * 1000 // 15 minutes
 
 interface AuthProviderProps {
   children: React.ReactNode
@@ -15,6 +18,9 @@ export function AuthProvider({ children }: AuthProviderProps) {
   const [isAuthenticated, setIsAuthenticated] = useState(false)
   const [passcode, setPasscode] = useState('')
   const [loading, setLoading] = useState(false)
+  const [attempts, setAttempts] = useState(0)
+  const [isLocked, setIsLocked] = useState(false)
+  const [lockoutEnd, setLockoutEnd] = useState<number | null>(null)
 
   useEffect(() => {
     // Check if user is already authenticated
@@ -22,18 +28,67 @@ export function AuthProvider({ children }: AuthProviderProps) {
     if (savedAuth === 'true') {
       setIsAuthenticated(true)
     }
+
+    // Check for existing lockout
+    const lockoutData = localStorage.getItem('auth-lockout')
+    if (lockoutData) {
+      const { endTime, attemptCount } = JSON.parse(lockoutData)
+      if (Date.now() < endTime) {
+        setIsLocked(true)
+        setLockoutEnd(endTime)
+        setAttempts(attemptCount)
+      } else {
+        localStorage.removeItem('auth-lockout')
+      }
+    }
   }, [])
 
+  useEffect(() => {
+    if (isLocked && lockoutEnd) {
+      const timer = setInterval(() => {
+        if (Date.now() >= lockoutEnd) {
+          setIsLocked(false)
+          setLockoutEnd(null)
+          setAttempts(0)
+          localStorage.removeItem('auth-lockout')
+          clearInterval(timer)
+        }
+      }, 1000)
+      return () => clearInterval(timer)
+    }
+  }, [isLocked, lockoutEnd])
+
   const handleSubmit = () => {
+    if (isLocked) {
+      message.error('Too many failed attempts. Please wait.')
+      return
+    }
+
     setLoading(true)
     
     setTimeout(() => {
       if (passcode === PASSCODE) {
         localStorage.setItem(AUTH_KEY, 'true')
+        localStorage.removeItem('auth-lockout')
         setIsAuthenticated(true)
+        setAttempts(0)
         message.success('Access granted!')
       } else {
-        message.error('Invalid passcode')
+        const newAttempts = attempts + 1
+        setAttempts(newAttempts)
+        
+        if (newAttempts >= MAX_ATTEMPTS) {
+          const lockoutEndTime = Date.now() + LOCKOUT_TIME
+          setIsLocked(true)
+          setLockoutEnd(lockoutEndTime)
+          localStorage.setItem('auth-lockout', JSON.stringify({
+            endTime: lockoutEndTime,
+            attemptCount: newAttempts
+          }))
+          message.error(`Too many failed attempts. Locked for 15 minutes.`)
+        } else {
+          message.error(`Invalid passcode. ${MAX_ATTEMPTS - newAttempts} attempts remaining.`)
+        }
         setPasscode('')
       }
       setLoading(false)
@@ -87,7 +142,7 @@ export function AuthProvider({ children }: AuthProviderProps) {
               value={passcode}
               onChange={(e) => setPasscode(e.target.value)}
               onKeyPress={handleKeyPress}
-              prefix={<KeyOutlined style={{ color: '#8c8c8c' }} />}
+              prefix={<SafetyOutlined style={{ color: '#8c8c8c' }} />}
               style={{ marginBottom: 16 }}
             />
             

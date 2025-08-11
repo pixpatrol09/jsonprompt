@@ -1,7 +1,8 @@
 import { Layout, Card, Button, Steps, Space } from 'antd'
-import { PlayCircleOutlined, PictureOutlined, RocketOutlined, ArrowRightOutlined, ArrowLeftOutlined, BookOutlined } from '@ant-design/icons'
+import { PlayCircleOutlined, FileImageOutlined, RocketOutlined, ArrowRightOutlined, ArrowLeftOutlined, FolderOutlined } from '@ant-design/icons'
 import { ThemeProvider } from './components/ThemeProvider'
 import { AuthProvider } from './components/AuthProvider'
+import { ErrorBoundary } from './components/ErrorBoundary'
 import { Header } from './components/Header'
 import { BasicInfoForm } from './components/forms/BasicInfoForm'
 import { InstructionsForm } from './components/forms/InstructionsForm'
@@ -11,16 +12,17 @@ import { ExportForm } from './components/forms/ExportForm'
 import { TemplateLibrary } from './components/templates/TemplateLibrary'
 import { usePromptStore } from './stores/promptStore'
 import type { PromptTemplate } from './data/templates'
+import type { UserTemplate } from './stores/promptStore'
 import { useState } from 'react'
 
 const { Content } = Layout
 
 const steps = [
-  { title: 'Basic Info', icon: <PictureOutlined /> },
-  { title: 'Instructions', icon: <PictureOutlined /> },
-  { title: 'Model Lock', icon: <PictureOutlined /> },
-  { title: 'Details', icon: <PictureOutlined /> },
-  { title: 'Export', icon: <PictureOutlined /> },
+  { title: 'Basic Info', icon: <FileImageOutlined /> },
+  { title: 'Instructions', icon: <FileImageOutlined /> },
+  { title: 'Model Lock', icon: <FileImageOutlined /> },
+  { title: 'Details', icon: <FileImageOutlined /> },
+  { title: 'Export', icon: <FileImageOutlined /> },
 ]
 
 function App() {
@@ -43,7 +45,8 @@ function App() {
     }
   }
 
-  const handleSelectTemplate = (template: PromptTemplate) => {
+  const handleSelectTemplate = (template: PromptTemplate | UserTemplate) => {
+    // Both template types have data property
     updatePromptData(template.data)
     setCurrentStep(0) // Start from first step with template loaded
   }
@@ -71,7 +74,7 @@ function App() {
             <div className="feature-grid">
               <Card className="feature-card" size="small">
                 <div className="feature-icon">
-                  <PictureOutlined />
+                  <FileImageOutlined />
                 </div>
                 <h3 className="feature-title">Image to Image</h3>
                 <p className="feature-description">
@@ -102,7 +105,7 @@ function App() {
               
               <Button 
                 size="large" 
-                icon={<BookOutlined />}
+                icon={<FolderOutlined />}
                 onClick={() => setShowTemplateLibrary(true)}
               >
                 Browse Templates
@@ -130,57 +133,59 @@ function App() {
   }
 
   return (
-    <ThemeProvider>
-      <AuthProvider>
-        <Layout>
-          <Header />
-          
-          <Content className="app-content">
-            <div style={{ maxWidth: 1000, margin: '0 auto' }}>
-              {currentStep >= 0 && (
-                <Card style={{ marginBottom: 24 }}>
-                  <Steps
-                    current={currentStep}
-                    items={steps}
-                    style={{ marginBottom: 24 }}
-                  />
-                  
-                  <Space style={{ width: '100%', justifyContent: 'space-between' }}>
-                    <Space>
-                      <Button 
-                        onClick={handlePrevious}
-                        disabled={currentStep <= 0}
-                        icon={<ArrowLeftOutlined />}
-                      >
-                        Previous
-                      </Button>
+    <ErrorBoundary>
+      <ThemeProvider>
+        <AuthProvider>
+          <Layout>
+            <Header />
+            
+            <Content className="app-content">
+              <div style={{ maxWidth: 1000, margin: '0 auto' }}>
+                {currentStep >= 0 && (
+                  <Card style={{ marginBottom: 24 }}>
+                    <Steps
+                      current={currentStep}
+                      items={steps}
+                      style={{ marginBottom: 24 }}
+                    />
+                    
+                    <Space style={{ width: '100%', justifyContent: 'space-between' }}>
+                      <Space>
+                        <Button 
+                          onClick={handlePrevious}
+                          disabled={currentStep <= 0}
+                          icon={<ArrowLeftOutlined />}
+                        >
+                          Previous
+                        </Button>
+                        
+                        <Button 
+                          icon={<FolderOutlined />}
+                          onClick={() => setShowTemplateLibrary(true)}
+                        >
+                          Templates
+                        </Button>
+                      </Space>
                       
                       <Button 
-                        icon={<BookOutlined />}
-                        onClick={() => setShowTemplateLibrary(true)}
+                        type="primary"
+                        onClick={handleNext}
+                        disabled={currentStep >= steps.length - 1}
+                        icon={<ArrowRightOutlined />}
                       >
-                        Templates
+                        Next Step
                       </Button>
                     </Space>
-                    
-                    <Button 
-                      type="primary"
-                      onClick={handleNext}
-                      disabled={currentStep >= steps.length - 1}
-                      icon={<ArrowRightOutlined />}
-                    >
-                      Next Step
-                    </Button>
-                  </Space>
-                </Card>
-              )}
-              
-              {renderContent()}
-            </div>
-          </Content>
-        </Layout>
-      </AuthProvider>
-    </ThemeProvider>
+                  </Card>
+                )}
+                
+                {renderContent()}
+              </div>
+            </Content>
+          </Layout>
+        </AuthProvider>
+      </ThemeProvider>
+    </ErrorBoundary>
   )
 }
 
