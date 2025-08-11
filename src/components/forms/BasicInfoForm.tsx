@@ -1,10 +1,9 @@
-import { Form, Input, Select, Card, Typography, Tooltip, Space, Radio } from 'antd'
-import { InfoCircleOutlined, PictureOutlined, BgColorsOutlined, PlusOutlined } from '@ant-design/icons'
+import { Form, Input, Select, Card, Tooltip, Space, Radio } from 'antd'
+import { InfoCircleOutlined, PictureOutlined, PlusOutlined } from '@ant-design/icons'
 import { usePromptStore } from '../../stores/promptStore'
 import SectionTitle from '../ui/SectionTitle'
 
 const { TextArea } = Input
-const { Title, Text } = Typography
 const { Option } = Select
 
 const taskOptions = [
@@ -26,7 +25,7 @@ export function BasicInfoForm() {
   const { promptData, updatePromptData } = usePromptStore()
   const [form] = Form.useForm()
 
-  const handleFormChange = (changedFields: any, allFields: any) => {
+  const handleFormChange = () => {
     const formData = form.getFieldsValue()
     updatePromptData(formData)
   }
@@ -44,7 +43,7 @@ export function BasicInfoForm() {
           form={form}
           layout="vertical"
           initialValues={promptData}
-          onFieldsChange={handleFormChange}
+          onValuesChange={handleFormChange}
           size="large"
         >
           <Form.Item

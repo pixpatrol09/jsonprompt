@@ -1,4 +1,4 @@
-import { Form, Switch, Select, Card, Row, Col, Tooltip, Space } from 'antd'
+import { Form, Switch, Select, Card, Row, Col, Tooltip, Space, Input } from 'antd'
 import { SettingOutlined, InfoCircleOutlined } from '@ant-design/icons'
 import { usePromptStore } from '../../stores/promptStore'
 import SectionTitle from '../ui/SectionTitle'
