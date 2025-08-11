@@ -1,0 +1,628 @@
+@import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@300;400;500;600;700&display=swap');
+
+/* Design System CSS Variables */
+:root {
+  /* Primary Colors */
+  --color-primary-50: #eef2ff;
+  --color-primary-500: #6366f1;
+  --color-primary-600: #5b21b6;
+  --color-primary-700: #4c1d95;
+  
+  /* Secondary Colors */
+  --color-secondary-500: #8b5cf6;
+  --color-secondary-600: #7c3aed;
+  
+  /* Neutral Colors */
+  --color-neutral-50: #f9fafb;
+  --color-neutral-100: #f3f4f6;
+  --color-neutral-200: #e5e7eb;
+  --color-neutral-500: #6b7280;
+  --color-neutral-600: #4b5563;
+  --color-neutral-900: #111827;
+  
+  /* Semantic Colors */
+  --color-success: #10b981;
+  --color-warning: #f59e0b;
+  --color-error: #ef4444;
+  
+  /* Component Sizes */
+  --button-height: 40px;
+  --input-height: 40px;
+  --border-radius: 8px;
+  --card-radius: 12px;
+  --spacing-xs: 4px;
+  --spacing-sm: 8px;
+  --spacing-md: 12px;
+  --spacing-lg: 16px;
+  --spacing-xl: 24px;
+  --spacing-2xl: 32px;
+  --spacing-3xl: 48px;
+  
+  /* Typography */
+  --font-family: 'IBM Plex Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  --font-weight-normal: 400;
+  --font-weight-medium: 500;
+  --font-weight-semibold: 600;
+  
+  /* Transitions */
+  --transition: all 0.3s ease;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: var(--font-family);
+  line-height: 1.5715;
+  font-size: 14px;
+  font-weight: var(--font-weight-normal);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  transition: var(--transition);
+}
+
+/* Light theme */
+body {
+  background: #ffffff;
+  color: var(--color-neutral-900);
+}
+
+/* Dark theme */
+body.dark {
+  background: #141414;
+  color: #ffffff;
+}
+
+body.dark .ant-layout {
+  background: #141414;
+}
+
+body.dark .ant-card {
+  background: #1f1f1f;
+  border-color: #303030;
+  color: #ffffff;
+}
+
+body.dark .ant-steps-item-title {
+  color: #ffffff !important;
+}
+
+body.dark .ant-steps-item-description {
+  color: #a6a6a6 !important;
+}
+
+body.dark .app-header {
+  background: #1f1f1f !important;
+  border-bottom-color: #303030 !important;
+}
+
+body.dark .ant-typography {
+  color: #ffffff !important;
+}
+
+body.dark .ant-typography.ant-typography-secondary {
+  color: #a6a6a6 !important;
+}
+
+body.dark .ant-form-item-label > label {
+  color: #ffffff !important;
+}
+
+body.dark .ant-input {
+  background: #262626;
+  border-color: #404040;
+  color: #ffffff;
+}
+
+body.dark .ant-input:focus {
+  background: #262626;
+  border-color: #1890ff;
+}
+
+body.dark .ant-select-selector {
+  background: #262626 !important;
+  border-color: #404040 !important;
+  color: #ffffff !important;
+}
+
+body.dark .ant-select-selection-item {
+  color: #ffffff !important;
+}
+
+body.dark .ant-select-arrow {
+  color: #a6a6a6;
+}
+
+body.dark .welcome-title {
+  color: #ffffff !important;
+}
+
+body.dark .welcome-subtitle {
+  color: #a6a6a6 !important;
+}
+
+body.dark .feature-title {
+  color: #ffffff !important;
+}
+
+body.dark .feature-description {
+  color: #a6a6a6 !important;
+}
+
+body.dark .form-section-title {
+  color: #ffffff !important;
+}
+
+body.dark .ant-btn {
+  border-color: #404040;
+  color: #ffffff;
+}
+
+body.dark .ant-btn:not(.ant-btn-primary) {
+  background: #262626;
+}
+
+body.dark .ant-btn:not(.ant-btn-primary):hover {
+  background: #303030;
+  border-color: #595959;
+}
+
+/* Override Ant Design variables */
+:root {
+  --ant-primary-color: #6366f1;
+  --ant-primary-color-hover: #6366f1;
+  --ant-primary-color-active: #6366f1;
+  --ant-primary-color-outline: rgba(99, 102, 241, 0.15);
+  --ant-success-color: #10b981;
+  --ant-warning-color: #f59e0b;
+  --ant-error-color: #ef4444;
+  --ant-font-size-base: 14px;
+  --ant-line-height-base: 1.5715;
+  --ant-border-radius-base: 8px;
+}
+
+/* Force switch/toggle colors */
+.ant-switch-checked {
+  background-color: #6366f1 !important;
+}
+
+.ant-switch-checked:hover:not(.ant-switch-disabled) {
+  background-color: #6366f1 !important;
+}
+
+.ant-switch-checked:focus {
+  box-shadow: 0 0 0 2px rgba(99, 102, 241, 0.2) !important;
+}
+
+.ant-switch-loading-icon,
+.ant-switch-checked .ant-switch-loading-icon {
+  color: #6366f1 !important;
+}
+
+/* Radio button colors */
+.ant-radio-checked .ant-radio-inner {
+  background-color: #6366f1 !important;
+  border-color: #6366f1 !important;
+}
+
+.ant-radio-wrapper:hover .ant-radio .ant-radio-inner {
+  border-color: #6366f1 !important;
+}
+
+.ant-radio-checked::after {
+  border-color: #6366f1 !important;
+}
+
+.ant-radio:hover .ant-radio-inner {
+  border-color: #6366f1 !important;
+}
+
+/* Custom flat design overrides */
+.ant-btn {
+  font-family: 'IBM Plex Sans', sans-serif;
+  font-weight: 500;
+  border-radius: 8px;
+  box-shadow: none;
+  border: 1px solid #d9d9d9;
+  height: 40px;
+  padding: 4px 15px;
+  font-size: 14px;
+  transition: all 0.3s ease;
+}
+
+.ant-btn-primary {
+  background: #6366f1;
+  border-color: #6366f1;
+  box-shadow: none;
+}
+
+.ant-btn-primary:hover,
+.ant-btn-primary:focus,
+.ant-btn-primary:active {
+  background: #6366f1 !important;
+  border-color: #6366f1 !important;
+  box-shadow: 0 0 0 4px rgba(99, 102, 241, 0.15) !important;
+  transform: translateY(-1px);
+}
+
+.ant-card {
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+  border: 1px solid #f0f0f0;
+  transition: all 0.3s ease;
+}
+
+.ant-card:hover {
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+}
+
+.ant-steps-item-title {
+  font-family: 'IBM Plex Sans', sans-serif;
+  font-weight: 500;
+}
+
+.ant-form-item-label > label {
+  font-family: 'IBM Plex Sans', sans-serif;
+  font-weight: 500;
+}
+
+.ant-input, .ant-select-selector, .ant-input-number {
+  border-radius: 8px;
+  border: 1.5px solid #d9d9d9;
+  transition: all 0.3s ease;
+}
+
+.ant-input:focus, .ant-select-focused .ant-select-selector, .ant-input-number:focus {
+  border-color: #6366f1;
+  box-shadow: 0 0 0 2px rgba(99, 102, 241, 0.1);
+}
+
+/* Custom layout */
+.app-header {
+  background: #ffffff;
+  border-bottom: 1px solid #f0f0f0;
+  padding: 0;
+  height: auto !important;
+  line-height: normal !important;
+  transition: all 0.3s ease;
+}
+
+.app-content {
+  padding: 24px;
+  min-height: calc(100vh - 80px);
+}
+
+.welcome-section {
+  text-align: center;
+  padding: 48px 24px;
+}
+
+.welcome-title {
+  font-size: 28px;
+  font-weight: 600;
+  color: #262626;
+  margin-bottom: 8px;
+  font-family: 'IBM Plex Sans', sans-serif;
+}
+
+.welcome-subtitle {
+  font-size: 16px;
+  color: #8c8c8c;
+  margin-bottom: 32px;
+  max-width: 480px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.feature-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 16px;
+  margin-bottom: 32px;
+  max-width: 600px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.feature-card {
+  text-align: center;
+  padding: 24px;
+  transition: all 0.3s ease;
+}
+
+.feature-card:hover {
+  transform: translateY(-2px);
+}
+
+.feature-icon {
+  width: 48px;
+  height: 48px;
+  margin: 0 auto 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #f3f4f6;
+  border-radius: 12px;
+  color: #6366f1;
+  font-size: 24px;
+  transition: all 0.3s ease;
+}
+
+.feature-icon.video {
+  background: #f3f4f6;
+  color: #6366f1;
+}
+
+.feature-title {
+  font-size: 16px;
+  font-weight: 600;
+  color: #262626;
+  margin-bottom: 8px;
+  font-family: 'IBM Plex Sans', sans-serif;
+}
+
+.feature-description {
+  font-size: 14px;
+  color: #8c8c8c;
+  line-height: 1.5715;
+}
+
+/* Form styling improvements */
+.ant-form-item-label > label {
+  font-family: var(--font-family);
+  font-weight: var(--font-weight-medium);
+  font-size: 14px;
+  line-height: 1.4;
+  margin-bottom: 4px;
+}
+
+.ant-form-item {
+  margin-bottom: 20px;
+}
+
+.ant-form-item-control {
+  line-height: 1.4;
+}
+
+.ant-select-selector {
+  min-height: 40px !important;
+  padding: 8px 12px !important;
+}
+
+.ant-select-selection-item {
+  line-height: 24px !important;
+  padding: 0 !important;
+}
+
+.ant-input, .ant-input-number {
+  min-height: 40px;
+  padding: 8px 12px;
+  line-height: 1.4;
+}
+
+.ant-input::placeholder {
+  color: #a0a0a0;
+  font-style: italic;
+}
+
+/* Custom dropdown options */
+.custom-option {
+  padding: 8px 0;
+  line-height: 1.4;
+}
+
+.custom-option-title {
+  font-weight: 500;
+  color: #262626;
+}
+
+.custom-option-desc {
+  font-size: 12px;
+  color: #8c8c8c;
+  margin-top: 2px;
+}
+
+/* Radio button improvements */
+.ant-radio-wrapper {
+  transition: all 0.3s ease;
+}
+
+.ant-radio-wrapper:hover {
+  background: #f8f9fa;
+  border-color: #d0d7de !important;
+}
+
+.ant-radio-checked + span {
+  color: #6366f1;
+  font-weight: 500;
+}
+
+/* Dark theme radio buttons */
+body.dark .ant-radio-wrapper:hover {
+  background: #2a2a2a;
+  border-color: #404040 !important;
+}
+
+body.dark .ant-radio-wrapper {
+  border-color: #303030 !important;
+}
+
+body.dark .ant-radio-checked + span {
+  color: #8b5cf6;
+}
+
+/* Export form dark theme */
+body.dark .export-summary {
+  background: #2a2a2a !important;
+  border-color: #404040 !important;
+}
+
+body.dark .json-preview {
+  background: #1a1a1a !important;
+  border-color: #404040 !important;
+  color: #e6e6e6 !important;
+}
+
+/* Minimal icon buttons */
+.ant-btn-text:hover {
+  background: #f5f5f5 !important;
+  color: #6366f1 !important;
+}
+
+body.dark .ant-btn-text:hover {
+  background: #2a2a2a !important;
+  color: #8b5cf6 !important;
+}
+
+/* Section headers */
+.form-section-header {
+  margin-bottom: 16px;
+  padding-bottom: 8px;
+  border-bottom: 1px solid #f0f0f0;
+}
+
+.form-section-header h4 {
+  font-size: 16px;
+  font-weight: 600;
+  color: #262626;
+  margin: 0;
+}
+
+/* Dark theme form fixes */
+body.dark .ant-form-item-label > label {
+  color: #ffffff !important;
+}
+
+body.dark .custom-option-title {
+  color: #ffffff;
+}
+
+body.dark .custom-option-desc {
+  color: #a6a6a6;
+}
+
+body.dark .form-section-header {
+  border-bottom-color: #303030;
+}
+
+body.dark .form-section-header h4 {
+  color: #ffffff;
+}
+
+.json-preview {
+  background: #f8f9fa;
+  border: 1px solid #e9ecef;
+  border-radius: 8px;
+  padding: 16px;
+  font-family: 'JetBrains Mono', 'Fira Code', monospace;
+  font-size: 12px;
+  max-height: 400px;
+  overflow-y: auto;
+}
+
+body.dark .json-preview {
+  background: #0d1117;
+  border-color: #30363d;
+  color: #c9d1d9;
+}
+
+body.dark .ant-select-dropdown {
+  background: #262626 !important;
+  border-color: #404040 !important;
+}
+
+body.dark .ant-select-item {
+  color: #ffffff !important;
+}
+
+body.dark .ant-select-item:hover {
+  background: #303030 !important;
+}
+
+body.dark .ant-select-item-option-selected {
+  background: #1890ff !important;
+  color: #ffffff !important;
+}
+
+body.dark .ant-tooltip-inner {
+  background: #262626;
+  color: #ffffff;
+}
+
+body.dark .ant-tooltip-arrow::before {
+  background: #262626;
+}
+
+/* Dark theme icon colors */
+body.dark .feature-icon {
+  background: #2a2a2a !important;
+  color: #6366f1 !important;
+}
+
+body.dark .feature-icon.video {
+  background: #2a2a2a !important;
+  color: #8b5cf6 !important;
+}
+
+body.dark .anticon {
+  color: #a6a6a6;
+}
+
+body.dark .ant-btn-primary .anticon {
+  color: #ffffff !important;
+}
+
+body.dark .form-section-title .anticon {
+  color: #8b5cf6;
+}
+
+body.dark .ant-input-prefix .anticon {
+  color: #595959;
+}
+
+body.dark .ant-steps-item-icon .anticon {
+  color: #ffffff;
+}
+
+body.dark .ant-steps-item-icon {
+  background: #404040;
+  border-color: #404040;
+}
+
+body.dark .ant-steps-item-process .ant-steps-item-icon {
+  background: #6366f1;
+  border-color: #6366f1;
+}
+
+body.dark .ant-steps-item-finish .ant-steps-item-icon {
+  background: #10b981;
+  border-color: #10b981;
+}
+
+/* Header icon in dark theme */
+body.dark .app-header .anticon {
+  color: #8b5cf6;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .app-content {
+    padding: 16px;
+  }
+  
+  .welcome-section {
+    padding: 32px 16px;
+  }
+  
+  .welcome-title {
+    font-size: 24px;
+  }
+  
+  .feature-grid {
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+}
