@@ -1,5 +1,5 @@
-import { Layout, Button, Space, Typography } from 'antd'
-import { BulbOutlined, BulbFilled, ThunderboltOutlined } from '@ant-design/icons'
+import { Layout, Button, Space, Typography, Dropdown } from 'antd'
+import { BulbOutlined, BulbFilled, ThunderboltOutlined, LogoutOutlined, UserOutlined } from '@ant-design/icons'
 import { useThemeStore } from '../stores/themeStore'
 
 const { Header: AntHeader } = Layout
@@ -7,6 +7,20 @@ const { Title, Text } = Typography
 
 export function Header() {
   const { isDark, toggleTheme } = useThemeStore()
+
+  const handleLogout = () => {
+    localStorage.removeItem('prompt-studio-auth')
+    window.location.reload()
+  }
+
+  const userMenuItems = [
+    {
+      key: 'logout',
+      label: 'Logout',
+      icon: <LogoutOutlined />,
+      onClick: handleLogout
+    }
+  ]
 
   return (
     <AntHeader className="app-header" style={{ height: 'auto', lineHeight: 'normal', padding: '12px 0' }}>
@@ -43,14 +57,28 @@ export function Header() {
           </div>
         </Space>
         
-        <Button
-          type="text"
-          icon={isDark ? 
-            <BulbFilled style={{ color: '#8b5cf6' }} /> : 
-            <BulbOutlined style={{ color: '#6b7280' }} />
-          }
-          onClick={toggleTheme}
-        />
+        <Space size={8}>
+          <Button
+            type="text"
+            icon={isDark ? 
+              <BulbFilled style={{ color: '#8b5cf6' }} /> : 
+              <BulbOutlined style={{ color: '#6b7280' }} />
+            }
+            onClick={toggleTheme}
+          />
+          
+          <Dropdown 
+            menu={{ items: userMenuItems }}
+            placement="bottomRight"
+            trigger={['click']}
+          >
+            <Button
+              type="text"
+              icon={<UserOutlined />}
+              style={{ color: isDark ? '#ffffff' : '#262626' }}
+            />
+          </Dropdown>
+        </Space>
       </div>
     </AntHeader>
   )

@@ -1,6 +1,7 @@
 import { Layout, Card, Button, Steps, Space } from 'antd'
 import { PlayCircleOutlined, PictureOutlined, RocketOutlined, ArrowRightOutlined, ArrowLeftOutlined } from '@ant-design/icons'
 import { ThemeProvider } from './components/ThemeProvider'
+import { AuthProvider } from './components/AuthProvider'
 import { Header } from './components/Header'
 import { BasicInfoForm } from './components/forms/BasicInfoForm'
 import { InstructionsForm } from './components/forms/InstructionsForm'
@@ -102,44 +103,46 @@ function App() {
 
   return (
     <ThemeProvider>
-      <Layout>
-        <Header />
-        
-        <Content className="app-content">
-          <div style={{ maxWidth: 1000, margin: '0 auto' }}>
-            {currentStep >= 0 && (
-              <Card style={{ marginBottom: 24 }}>
-                <Steps
-                  current={currentStep}
-                  items={steps}
-                  style={{ marginBottom: 24 }}
-                />
-                
-                <Space style={{ width: '100%', justifyContent: 'space-between' }}>
-                  <Button 
-                    onClick={handlePrevious}
-                    disabled={currentStep <= 0}
-                    icon={<ArrowLeftOutlined />}
-                  >
-                    Previous
-                  </Button>
+      <AuthProvider>
+        <Layout>
+          <Header />
+          
+          <Content className="app-content">
+            <div style={{ maxWidth: 1000, margin: '0 auto' }}>
+              {currentStep >= 0 && (
+                <Card style={{ marginBottom: 24 }}>
+                  <Steps
+                    current={currentStep}
+                    items={steps}
+                    style={{ marginBottom: 24 }}
+                  />
                   
-                  <Button 
-                    type="primary"
-                    onClick={handleNext}
-                    disabled={currentStep >= steps.length - 1}
-                    icon={<ArrowRightOutlined />}
-                  >
-                    Next Step
-                  </Button>
-                </Space>
-              </Card>
-            )}
-            
-            {renderContent()}
-          </div>
-        </Content>
-      </Layout>
+                  <Space style={{ width: '100%', justifyContent: 'space-between' }}>
+                    <Button 
+                      onClick={handlePrevious}
+                      disabled={currentStep <= 0}
+                      icon={<ArrowLeftOutlined />}
+                    >
+                      Previous
+                    </Button>
+                    
+                    <Button 
+                      type="primary"
+                      onClick={handleNext}
+                      disabled={currentStep >= steps.length - 1}
+                      icon={<ArrowRightOutlined />}
+                    >
+                      Next Step
+                    </Button>
+                  </Space>
+                </Card>
+              )}
+              
+              {renderContent()}
+            </div>
+          </Content>
+        </Layout>
+      </AuthProvider>
     </ThemeProvider>
   )
 }
