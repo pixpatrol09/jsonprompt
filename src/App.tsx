@@ -1,5 +1,5 @@
 import { Layout, Card, Button, Steps, Space } from 'antd'
-import { PlayCircleOutlined, PictureOutlined, RocketOutlined, ArrowRightOutlined, ArrowLeftOutlined } from '@ant-design/icons'
+import { PlayCircleOutlined, PictureOutlined, RocketOutlined, ArrowRightOutlined, ArrowLeftOutlined, BookOutlined } from '@ant-design/icons'
 import { ThemeProvider } from './components/ThemeProvider'
 import { AuthProvider } from './components/AuthProvider'
 import { Header } from './components/Header'
@@ -8,7 +8,10 @@ import { InstructionsForm } from './components/forms/InstructionsForm'
 import { ModelLockForm } from './components/forms/ModelLockForm'
 import { AdditionalDetailsForm } from './components/forms/AdditionalDetailsForm'
 import { ExportForm } from './components/forms/ExportForm'
+import { TemplateLibrary } from './components/templates/TemplateLibrary'
 import { usePromptStore } from './stores/promptStore'
+import type { PromptTemplate } from './data/templates'
+import { useState } from 'react'
 
 const { Content } = Layout
 
@@ -21,7 +24,8 @@ const steps = [
 ]
 
 function App() {
-  const { currentStep, setCurrentStep } = usePromptStore()
+  const { currentStep, setCurrentStep, updatePromptData } = usePromptStore()
+  const [showTemplateLibrary, setShowTemplateLibrary] = useState(false)
 
   const handleStartCreating = () => {
     setCurrentStep(0)
@@ -39,7 +43,21 @@ function App() {
     }
   }
 
+  const handleSelectTemplate = (template: PromptTemplate) => {
+    updatePromptData(template.data)
+    setCurrentStep(0) // Start from first step with template loaded
+  }
+
   const renderContent = () => {
+    if (showTemplateLibrary) {
+      return (
+        <TemplateLibrary
+          onSelectTemplate={handleSelectTemplate}
+          onClose={() => setShowTemplateLibrary(false)}
+        />
+      )
+    }
+
     if (currentStep === -1) {
       return (
         <Card>
@@ -72,14 +90,24 @@ function App() {
               </Card>
             </div>
             
-            <Button 
-              type="primary" 
-              size="large" 
-              icon={<RocketOutlined />}
-              onClick={handleStartCreating}
-            >
-              Start Creating
-            </Button>
+            <Space size={16} style={{ marginTop: 32 }}>
+              <Button 
+                type="primary" 
+                size="large" 
+                icon={<RocketOutlined />}
+                onClick={handleStartCreating}
+              >
+                Start Creating
+              </Button>
+              
+              <Button 
+                size="large" 
+                icon={<BookOutlined />}
+                onClick={() => setShowTemplateLibrary(true)}
+              >
+                Browse Templates
+              </Button>
+            </Space>
           </div>
         </Card>
       )
@@ -118,13 +146,22 @@ function App() {
                   />
                   
                   <Space style={{ width: '100%', justifyContent: 'space-between' }}>
-                    <Button 
-                      onClick={handlePrevious}
-                      disabled={currentStep <= 0}
-                      icon={<ArrowLeftOutlined />}
-                    >
-                      Previous
-                    </Button>
+                    <Space>
+                      <Button 
+                        onClick={handlePrevious}
+                        disabled={currentStep <= 0}
+                        icon={<ArrowLeftOutlined />}
+                      >
+                        Previous
+                      </Button>
+                      
+                      <Button 
+                        icon={<BookOutlined />}
+                        onClick={() => setShowTemplateLibrary(true)}
+                      >
+                        Templates
+                      </Button>
+                    </Space>
                     
                     <Button 
                       type="primary"
